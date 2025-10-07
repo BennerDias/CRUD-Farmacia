@@ -38,7 +38,7 @@ export class CategoriaController {
   @Post()
   @HttpCode(HttpStatus.OK)
   create(@Body() categoria: Categoria): Promise<Categoria> {
-    return this.categoriaService.update(categoria);
+    return this.categoriaService.create(categoria);
   }
 
   @Put()
@@ -49,7 +49,7 @@ export class CategoriaController {
     return this.categoriaService.update(categoria);
   }
 
-  @Delete()
+  @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.categoriaService.delete(id);
