@@ -1,10 +1,14 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseIntPipe,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { CategoriaService } from '../services/categoria.service';
 import { Categoria } from '../entities/categoria.entity';
@@ -23,5 +27,31 @@ export class CategoriaController {
   @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseIntPipe) id: number): Promise<Categoria> {
     return this.categoriaService.findById(id);
+  }
+
+  @Get('/categoria/:nome')
+  @HttpCode(HttpStatus.OK)
+  findAllByDescription(@Param('nome') nome: string): Promise<Categoria[]> {
+    return this.categoriaService.findAllByDescription(nome);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  create(@Body() categoria: Categoria): Promise<Categoria> {
+    return this.categoriaService.update(categoria);
+  }
+
+  @Put()
+  @HttpCode(HttpStatus.OK)
+  async update(@Body() categoria: Categoria): Promise<Categoria> {
+    await this.findById(categoria.id);
+
+    return this.categoriaService.update(categoria);
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.categoriaService.delete(id);
   }
 }
